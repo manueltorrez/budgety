@@ -23,6 +23,29 @@ let budgetController = (function() {
             inc: 0
         }
     }
+
+    return {
+        addItem(type, des, val) {
+            let newItem, ID;
+            //ID = last ID + 1
+            //Create new ID
+            ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+
+            //Create new item based on 'inc' or 'exp' type
+            if(type === 'exp') {
+                newItem = new Expense(ID, des, val);
+            } else if(type === 'inc') {
+                newItem = new Income(ID, des, val);
+            }
+
+            //Push the item into data structure
+            data.allItems[type].push(newItem);
+
+            //Return new element
+            return newItem;
+        }
+    }
+
 }());
 
 
@@ -39,7 +62,7 @@ let UIController = (function() {
     return {
         getInput() {
             return {
-                type: document.querySelector(DOMstrings.inputType).value, //Either income or expense
+                type: document.querySelector(DOMstrings.inputType).value, //Either inc or exp
                 description: document.querySelector(DOMstrings.inputDescription).value,
                 value: document.querySelector(DOMstrings.inputValue).value,
             }
