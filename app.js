@@ -165,17 +165,21 @@ let controller = (function(budgetCtrl, UICtrl) {
         //1. Get the field input data
         let input = UIController.getInput();
 
-        //2. Add item to the budget controller
-        let newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+        if(input.description !== "" && !isNaN(input.value) && input.value > 0) {
 
-        //3. Add item to the UI
-        UICtrl.addListItem(newItem, input.type);
+            //2. Add item to the budget controller
+            let newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+    
+            //3. Add item to the UI
+            UICtrl.addListItem(newItem, input.type);
+    
+            //4. For clear the fields
+            UICtrl.clearFields();
+    
+            //5. Calculate and update budget
+            updateBudget();
+        }
 
-        //4. For clear the fields
-        UICtrl.clearFields();
-
-        //5. Calculate and update budget
-        updateBudget();
     };
 
     return {
