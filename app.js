@@ -102,7 +102,11 @@ let UIController = (function() {
         inputValue: '.add__value',
         inputBtn: '.add__btn',
         incomeContainer: '.income__list',
-        expensesContainer: '.expenses__list'
+        expensesContainer: '.expenses__list',
+        budgetLabel: '.budget__value',
+        incomeLabel: '.budget__income--value',
+        expensesLabel: '.budget__expenses--value',
+        percentageLabel: '.budget__expenses--percentage'
     }
     
     return {
@@ -146,6 +150,13 @@ let UIController = (function() {
 
             //Insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', html);
+        },
+
+        displayBudget(obj) {
+            document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
+            document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
+            document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp;
+            document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage;
         },
 
         clearFields() {
@@ -196,6 +207,7 @@ let controller = (function(budgetCtrl, UICtrl) {
 
         //3. Display the budget on the UI
         console.log(budget);
+        UICtrl.displayBudget(budget);
     };
 
 
