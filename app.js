@@ -60,7 +60,7 @@ let budgetController = (function() {
 
         deleteItem(type, id) {
 
-            //Create a new array with only the ID
+            //Create a new array with only the elements ID
             let ids = data.allItems[type].map(current => current.id);
 
             //Get the index of that ID element
@@ -242,6 +242,7 @@ let controller = (function(budgetCtrl, UICtrl) {
         if(itemID) {
             let splitID = itemID.split('-');
             let type = splitID[0];
+            //Parse the split string to int
             let ID = parseInt(splitID[1]);
 
             //1. Delete the item from the data structure
