@@ -27,7 +27,7 @@ let budgetController = (function() {
     };
 
     let calculateTotal = function(type) {
-        //Loops over allItems and store the sum in totals
+        //Loops over allItems and stores the sum in totals
         let sum = 0;
         data.allItems[type].forEach(current => sum += current.value);
         data.totals[type] = sum;
@@ -87,7 +87,7 @@ let budgetController = (function() {
                 data.percentage = -1;
             }
 
-            //Expense 100 and income 200, spent 50% = 100/200 = 0.5*100
+            //Ex: Expense 100 and income 200, spent 50% = 100/200 = 0.5*100
         },
 
         getBudget() {
@@ -165,6 +165,14 @@ let UIController = (function() {
 
             //Insert the HTML into the DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', html);
+        },
+
+        deleteListItem(selectorId) {
+            //Select the element to delete
+            let element = document.getElementById(selectorId);
+
+            //To delete an item you have to move up to its parent and delete it as child
+            element.parentNode.removeChild(element);
         },
 
         displayBudget(obj) {
@@ -249,8 +257,10 @@ let controller = (function(budgetCtrl, UICtrl) {
             budgetCtrl.deleteItem(type, ID);
 
             //2. Delete the item from the UI
+            UICtrl.deleteListItem(itemID);
 
             //3. Update and show the new budget
+            updateBudget();
         }
     };
 
