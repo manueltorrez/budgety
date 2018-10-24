@@ -58,6 +58,20 @@ let budgetController = (function() {
             return newItem;
         },
 
+        deleteItem(type, id) {
+
+            //Create a new array with only the ID
+            let ids = data.allItems[type].map(current => current.id);
+
+            //Get the index of that ID element
+            let index = ids.indexOf(id);
+
+            //Delete the element based on its index
+            if(index !== -1) {
+                data.allItems[type].splice(index, 1);
+            }
+        },
+
         calculateBudget() {
             //Calculate income and expenses
             calculateTotal('inc');
@@ -188,24 +202,6 @@ let UIController = (function() {
 //GLOBAL CONTROLLER
 let controller = (function(budgetCtrl, UICtrl) {
 
-    //Wraping all eventListeners in a function
-    let setupEventListeners = function() {
-        
-        let DOM = UICtrl.getDOMstrings();
-        
-        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
-    
-        document.addEventListener('keypress', function(event) {
-            //keyCode 13 is the code for "Enter" key
-            if(event.keyCode === 13 || event.which === 13) {
-                ctrlAddItem();
-            }
-        });
-
-        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
-
-    };
-
     let updateBudget = function() {
         //1. Calculate the budget
         budgetCtrl.calculateBudget();
@@ -246,15 +242,34 @@ let controller = (function(budgetCtrl, UICtrl) {
         if(itemID) {
             let splitID = itemID.split('-');
             let type = splitID[0];
-            let ID = splitID[1];
+            let ID = parseInt(splitID[1]);
 
             //1. Delete the item from the data structure
+            budgetCtrl.deleteItem(type, ID);
 
             //2. Delete the item from the UI
 
             //3. Update and show the new budget
         }
-    }
+    };
+
+    //Wraping all eventListeners in a function
+    let setupEventListeners = function() {
+        
+        let DOM = UICtrl.getDOMstrings();
+        
+        document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+    
+        document.addEventListener('keypress', function(event) {
+            //keyCode 13 is the code for "Enter" key
+            if(event.keyCode === 13 || event.which === 13) {
+                ctrlAddItem();
+            }
+        });
+
+        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+    };
 
     return {
         init() {
