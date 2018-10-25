@@ -286,6 +286,17 @@ let UIController = (function() {
             
         },
 
+        changeType() {
+            let fields = document.querySelectorAll(
+                DOMstrings.inputType + ',' +
+                DOMstrings.inputDescription + ',' +
+                DOMstrings.inputValue);
+
+            fields.forEach(current => current.classList.toggle('red-focus'));
+
+            document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+        },
+
         getDOMstrings() {
             return DOMstrings;
         }
@@ -380,6 +391,8 @@ let controller = (function(budgetCtrl, UICtrl) {
         });
 
         document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+
+        document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
 
     };
 
